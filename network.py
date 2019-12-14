@@ -318,10 +318,12 @@ class MCNN:
 
                 den = cv2.resize(den, (4608, 3456))
                 den_pos = (den * 2500).astype('uint8')
+                color_img = cv2.cvtColor(den, cv2.COLOR_GRAY2RGB)
                 Image.fromarray(den_pos, mode='L').save(img[:-4] + '_pos.png')
+                #Image.fromarray(color_img, mode='RGB').save(img[:-4] + '_count.png')
 
                 # Make the plot
                 plt.imshow(den)
                 plt.show()
                 plt.axis('off')
-                plt.savefig(img[:-4] + '_count.png',  bbox_inches='tight', dpi=600)
+                plt.savefig(img[:-4] + '_count.png',  bbox_inches='tight', dpi=600, pad_inches=0.0)
