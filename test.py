@@ -22,7 +22,7 @@ dataset = 'B'
 '''
 
 #path = 'black/'
-path = 'green/'
+path = 'cropped/'
 mcnn = MCNN(dataset)
 
 # For predicting the count of people in one Image.

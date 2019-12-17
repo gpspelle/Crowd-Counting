@@ -8,6 +8,7 @@ import os
 import random
 import math
 from matplotlib import pyplot as plt
+#from matplotlib.pyplot import cm
 from PIL import Image
 #from keras.models import load_model
 #import sys
@@ -291,6 +292,9 @@ class MCNN:
                 #name = 'centraliens.jpg'
                 #img = cv2.imread(img_path + name, 0)
                 img_ = cv2.imread(img, 0)
+
+                xres, yres = img_.shape
+
                 img_ = np.array(img_)
                 img_ = (img_ - 127.5) / 128
                 data.append([img_])
@@ -316,14 +320,23 @@ class MCNN:
                 print("******** ", images.index(img)/len(images), images.index(img), " of ", len(images), "*********")
                 file.write(img + "," + str(y_p) + '\n')
 
-                den = cv2.resize(den, (4608, 3456))
-                den_pos = (den * 2500).astype('uint8')
-                color_img = cv2.cvtColor(den, cv2.COLOR_GRAY2RGB)
-                Image.fromarray(den_pos, mode='L').save(img[:-4] + '_pos.png')
-                #Image.fromarray(color_img, mode='RGB').save(img[:-4] + '_count.png')
+                #den = np.rot90(den, 3)
+                #den = cv2.resize(den, (xres, yres))
+                #color_img = cv2.cvtColor(den, cv2.COLOR_GRAY2RGB)
+                #Image.fromarray(den_pos, mode='L').save(img[:-4] + '_pos.png')
+                
+                #Image.fromarray(den, mode='RGB').save(img[:-4] + '_pos.png')
+                #plt.imsave(img[:-4] + '_pos.png', den, cmap='gray')
+
+                #im = Image.fromarray(den)
+                #print(den)
+                #cv2.imwrite(img[:-4] + '_pos.png', den)
+                #im.save(img[:-4] + '_pos.png', format='png')
 
                 # Make the plot
+                #print(den.shape)
                 plt.imshow(den)
-                plt.show()
+                #plt.axis([0, 970, 0, 1790])
                 plt.axis('off')
-                plt.savefig(img[:-4] + '_count.png',  bbox_inches='tight', dpi=600, pad_inches=0.0)
+                plt.savefig(img[:-4] + '_pos.png',  bbox_inches='tight', pad_inches=0.0, dpi=600)
+                #plt.show()
