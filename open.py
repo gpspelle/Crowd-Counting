@@ -22,21 +22,21 @@ def get_image(im_path):
     return im
 
 im_path1 = 'DSCN1650_pos_black.png'
-im_path2 = 'DSCN1666_pos_black.png'
-im_path3 = 'DSCN1810_pos_black.png'
+#im_path2 = 'DSCN1666_pos_black.png'
+#im_path3 = 'DSCN1810_pos_black.png'
 
 im_1 = get_image(im_path1)
-im_2 = get_image(im_path2)
-im_3 = get_image(im_path3)
+#im_2 = get_image(im_path2)
+#im_3 = get_image(im_path3)
 
-plt.subplot(131)
+#plt.subplot(131)
 plt.imshow(im_1, cmap='gray', vmin=0, vmax=255)
 
-plt.subplot(132)
-plt.imshow(im_2, cmap='gray', vmin=0, vmax=255)
+#plt.subplot(132)
+#plt.imshow(im_2, cmap='gray', vmin=0, vmax=255)
 
-plt.subplot(133)
-plt.imshow(im_3, cmap='gray', vmin=0, vmax=255)
+#plt.subplot(133)
+#plt.imshow(im_3, cmap='gray', vmin=0, vmax=255)
 plt.show()
 
 
