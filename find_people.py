@@ -6,6 +6,7 @@ import cv2
 from matplotlib import pyplot as plt
 from sklearn.cluster import DBSCAN
 from statistics import stdev
+import params
 
 
 def get_image(im_path):
@@ -22,12 +23,16 @@ def get_image(im_path):
 
     return im
 
-path = 'DSCN1784/'
+path = params.input
 	
-paths = glob.glob(path + '*pos_z.png')
-print(paths)
+dirs = [f for f in glob.glob(path + '/*/')]
+images = []
+for x in dirs:
+    images.append([f for f in glob.glob(x + '/*pos_z.png')])
+images.sort()
+images = [item for sublist in images for item in sublist]
 
-for im_path in paths:
+for im_path in images:
     print(im_path)
 
     im = get_image(im_path)

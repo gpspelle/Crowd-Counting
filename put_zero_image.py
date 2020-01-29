@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import os
 import glob
-from paint_den import paint
+from paint_image import paint
 import params
 
 path = params.input
@@ -10,7 +10,7 @@ path = params.input
 dirs = [f for f in glob.glob(path + '/*/')]
 images = []
 for x in dirs:
-    images.append([f for f in glob.glob(x + '/*_pos.png')])
+    images.append([f for f in glob.glob(x + '/*_crop.png')])
 images.sort()
 images = [item for sublist in images for item in sublist]
 

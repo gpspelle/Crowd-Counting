@@ -7,14 +7,24 @@ from matplotlib import pyplot as plt
 from sklearn.cluster import DBSCAN
 from statistics import stdev
 from scipy import misc
+import params
 
-path = 'cropped/'
-images = [f for f in glob.glob(path + "*black.png")]
+path = params.input
+output = path
+
+dirs = [f for f in glob.glob(path + '/*/')]
+images = []
+for x in dirs:
+    images.append([f for f in glob.glob(x + '/*black.png')])
 images.sort()
+images = [item for sublist in images for item in sublist]
+
 file = open("output_cluster.csv", "w")
 
 for im_path in images:
     print(im_path)
+
+    # Open image
     png = Image.open(im_path)
 
     png.load()
@@ -24,7 +34,9 @@ for im_path in images:
     gray = lambda rgb : np.dot(rgb[... , :3] , [0.299 , 0.587, 0.114])
 
     im = gray(np.asarray(background))
-    pos = np.where(im>110)
+
+    # Get only points with value above a treshold
+    pos = np.where(im>175)
     #plt.plot(im)
     #plt.show()
 
@@ -34,6 +46,8 @@ for im_path in images:
 
     #print(cart_pos)
 
+    
+    # Fit a clustering algorithm over the cartesian points from the image
     clustering = DBSCAN(eps=4).fit(cart_pos)
 
     indices = [i for i, x in enumerate(clustering.labels_) if x == -1]
@@ -50,11 +64,11 @@ for im_path in images:
 
     number_points_per_cluster = np.zeros(number_cluster)
 
+    # Calculate the centroid position of clusters
     for i in range(len(cart_pos)):
         centroids[clustering.labels_[i]][0] += cart_pos[i][0]
         centroids[clustering.labels_[i]][1] += cart_pos[i][1]
 
-    #print(clustering.labels_)
     print(number_cluster)
 
     for i in range(number_cluster):
@@ -74,14 +88,17 @@ for im_path in images:
     px = n
     py = 2*n
 
-    original_image = cv2.imread(im_path[:-16] + '.JPG', 0)
+    #original_image = cv2.imread(im_path[:-16] + '.JPG', 0)
+    original_image = cv2.imread(im_path[:-15] + 'y.png', 0)
 
+    # Reshape the centroid position to the original image resolution
     yor, xor = original_image.shape
     ynew, xnew = im.shape  
 
     rx = xor / xnew
     ry = yor / ynew
 
+    # Eliminate invalid centroids
     for i in range(number_cluster):
         cx_old = centroids[i][1] * rx
         cy_old = centroids[i][0] * ry
@@ -89,6 +106,9 @@ for im_path in images:
         if cy_old + py >= original_image.shape[0] or cy_old - py < 0 or cx_old + px >= original_image.shape[1] or cx_old - px < 0:
             centroids[i][0] = -1
             centroids[i][1] = -1
+        #else:
+            #centroids[i][0] = cy_old
+            #centroids[i][1] = cx_old
    
     indices = [i for i, x in enumerate(centroids) if x[0] == -1 and x[1] == -1]
 
@@ -126,12 +146,28 @@ for im_path in images:
     plt.close()
     #plt.show()
 
+    # Recalculate centroid position in the original image 
+    for i in range(number_cluster):
+        cx_old = centroids[i][1] * rx
+        cy_old = centroids[i][0] * ry
+
+        if cy_old + py >= original_image.shape[0] or cy_old - py < 0 or cx_old + px >= original_image.shape[1] or cx_old - px < 0:
+            centroids[i][0] = -1
+            centroids[i][1] = -1
+        else:
+            centroids[i][0] = cy_old
+            centroids[i][1] = cx_old
+   
+    np.save(im_path[:-4] + "_code_1", centroids)
+
+    '''
     dimx = 128
     dimy = 2*dimx
 
     heads = np.empty(shape=(number_cluster,dimy, dimx))
     #heads = np.empty(shape=(number_cluster,n, n, 3))
-    
+
+    # Get an area around the centroid position
     for i in range(number_cluster):
         dx = int(centroids[i][1] * rx)
         dy = int(centroids[i][0] * rx)
@@ -150,6 +186,7 @@ for im_path in images:
         #plt.close()
 
 
+    '''
     #silhuetas = np.zeros(shape=(number_cluster,silh_size))
 
     #for i in range(number_cluster):

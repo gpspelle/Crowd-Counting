@@ -6,6 +6,7 @@ import cv2
 from matplotlib import pyplot as plt
 from sklearn.cluster import DBSCAN
 from statistics import stdev
+import params
 
 
 def get_image(im_path):
@@ -21,7 +22,7 @@ def get_image(im_path):
 
     return im
 
-im_path1 = 'DSCN1650_pos_black.png'
+im_path1 = params.input + 'DSCN1653_pos_z_black.png'
 #im_path2 = 'DSCN1666_pos_black.png'
 #im_path3 = 'DSCN1810_pos_black.png'
 

@@ -3,7 +3,7 @@ Crowd-Counting using Multi-Column Convolutional Neural Networks.
 '''
 
 from network import MCNN
-#import sys
+import params
 
 '''
 # For accepting the input from the prompt.
@@ -22,7 +22,7 @@ dataset = 'B'
 '''
 
 #path = 'black/'
-path = 'DSCN1653/'
+path = params.input
 mcnn = MCNN(dataset)
 
 # For predicting the count of people in one Image.

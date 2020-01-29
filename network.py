@@ -280,12 +280,15 @@ class MCNN:
         with tf.Session() as sess:
             saver = tf.train.Saver()
             saver.restore(sess, 'model' + self.dataset + '/model.ckpt')
-            images = [f for f in glob.glob(path + "/*.JPG")]
+            dirs = [f for f in glob.glob(path + '/*/')]
+            images = []
+            for x in dirs:
+                images.append([f for f in glob.glob(x + '/*_crop.png')])
             images.sort()
+            images = [item for sublist in images for item in sublist]
             file = open("output.csv", "w")
             for img in images:
                 #img_path = '.\\data\\original\\shanghaitech\\part_'+ self.dataset +'\\test_data\\images\\'
-
 
                 data = []
                 #name = 'teste_1.jpg'
