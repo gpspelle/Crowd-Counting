@@ -115,6 +115,8 @@ def evaluate(weight_file_path, data_dir, output_dir, prob_thresh=0.5, nms_thresh
   with tf.Session() as sess:
     sess.run(tf.global_variables_initializer())
 
+    file = open("output_rnn.csv", "w")
+
     for filename in images:
       fname = filename.split(os.sep)[-1]
       raw_img = cv2.imread(filename)
@@ -216,8 +218,12 @@ def evaluate(weight_file_path, data_dir, output_dir, prob_thresh=0.5, nms_thresh
       cv2.imwrite(os.path.join(dirs[counter], fname[:-4] + '_rectangles.png'), raw_img)
 
       refined_bboxes = refined_bboxes.astype(int)
+      num, _ = refined_bboxes.shape
+      file.write(filename + "," + str(num) + '\n')
       np.save(os.path.join(dirs[counter], fname[:-4] + '_code_2'), refined_bboxes)
       counter+=1
+
+  file.close()
 
 def main():
 

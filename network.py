@@ -283,7 +283,7 @@ class MCNN:
             dirs = [f for f in glob.glob(path + '/*/')]
             images = []
             for x in dirs:
-                images.append([f for f in glob.glob(x + '/*_crop.png')])
+                images.append([f for f in glob.glob(x + '/*_crop_y.png')])
             images.sort()
             images = [item for sublist in images for item in sublist]
             file = open("output.csv", "w")

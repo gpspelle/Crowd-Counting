@@ -1,6 +1,10 @@
 import csv
 
-with open('output_new.csv', 'r') as t1, open('truth.csv', 'r') as t2:
+truth_file = 'safe_truth.csv'
+test_file = 'output_mcnn_posprocessing.csv'
+
+
+with open(test_file, 'r') as t1, open(truth_file, 'r') as t2:
     sum = 0
     count = 0
     fileone = t1.readlines()
@@ -15,7 +19,7 @@ with open('output_new.csv', 'r') as t1, open('truth.csv', 'r') as t2:
     mae = sum / count
     print(mae)
 
-with open('output_new.csv', 'r') as t1, open('truth.csv', 'r') as t2:
+with open(test_file, 'r') as t1, open(truth_file, 'r') as t2:
     sum = 0
     count = 0
     fileone = t1.readlines()

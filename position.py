@@ -15,11 +15,11 @@ output = path
 dirs = [f for f in glob.glob(path + '/*/')]
 images = []
 for x in dirs:
-    images.append([f for f in glob.glob(x + '/*black.png')])
+    images.append([f for f in glob.glob(x + '/*y_*black.png')])
 images.sort()
 images = [item for sublist in images for item in sublist]
 
-file = open("output_cluster.csv", "w")
+file = open("output_mcnn_posprocessing.csv", "w")
 
 for im_path in images:
     print(im_path)
@@ -36,7 +36,7 @@ for im_path in images:
     im = gray(np.asarray(background))
 
     # Get only points with value above a treshold
-    pos = np.where(im>175)
+    pos = np.where(im>100)
     #plt.plot(im)
     #plt.show()
 
@@ -89,7 +89,7 @@ for im_path in images:
     py = 2*n
 
     #original_image = cv2.imread(im_path[:-16] + '.JPG', 0)
-    original_image = cv2.imread(im_path[:-15] + 'y.png', 0)
+    original_image = cv2.imread(im_path[:-16] + '.png', 0)
 
     # Reshape the centroid position to the original image resolution
     yor, xor = original_image.shape
@@ -275,6 +275,8 @@ for im_path in images:
     #print(max, ind)
     print(max)
     file.write(im_path + "," + str(max) + '\n')
+
+file.close()
     
     
 

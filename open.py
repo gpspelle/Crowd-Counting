@@ -22,7 +22,7 @@ def get_image(im_path):
 
     return im
 
-im_path1 = params.input + 'DSCN1653_pos_z_black.png'
+im_path1 = 'safe/IMG_0002/IMG_0002_crop_y_pos_z_black.png'
 #im_path2 = 'DSCN1666_pos_black.png'
 #im_path3 = 'DSCN1810_pos_black.png'
 

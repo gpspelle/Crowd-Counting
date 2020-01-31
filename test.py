@@ -14,7 +14,7 @@ else:
     exit()
 '''
 
-dataset='B'
+dataset='A'
 
 '''
 # For the B dataset.
